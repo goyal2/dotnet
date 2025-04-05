@@ -54,15 +54,6 @@ pipeline {
             }
         }
 
-        stage('Compress Artifacts') {
-            steps {
-                dir('ProductService') {
-                    bat '''
-                        powershell -Command "Compress-Archive -Path publish\\* -DestinationPath ..\\publish.zip -Force"
-                    '''
-                }
-            }
-        }
 
 
     stage('Deploy to Azure') {
