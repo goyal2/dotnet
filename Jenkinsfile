@@ -47,7 +47,7 @@ pipeline {
         }
          stage('Build .NET App') {
             steps {
-                dir('ProductService/ProductService') {
+                dir('ProductService') {
                     bat 'dotnet publish -c Release -o publish'
 }
 
