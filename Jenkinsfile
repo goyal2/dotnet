@@ -54,15 +54,24 @@ pipeline {
             }
         }
 
-
-        stage('Deploy to Azure') {
+        stage('Compress Artifacts') {
             steps {
-                bat '''
-                powershell Compress-Archive -Path ProductService\\publish\\* -DestinationPath publish.zip -Force
-                az webapp deployment source config-zip --resource-group jenkins-somya-rg --name "jenkins-somya-app123" --src "publish.zip"
-
-                '''
+                dir('ProductService') {
+                    bat '''
+                        powershell -Command "Compress-Archive -Path publish\\* -DestinationPath ..\\publish.zip -Force"
+                    '''
+                }
             }
-        }   
+        }
+
+
+    stage('Deploy to Azure') {
+        steps {
+            bat '''
+                az login --service-principal -u %ARM_CLIENT_ID% -p %ARM_CLIENT_SECRET% --tenant %ARM_TENANT_ID%
+                az webapp deploy --resource-group jenkins-somya-rg --name jenkins-somya-app123 --src-path publish.zip --type zip
+            '''
+        }
     }
+
 }
