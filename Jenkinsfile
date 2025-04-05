@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/goyal2/.Net-project', branch: 'main'
+                git url: 'https://github.com/goyal2/dotnet', branch: 'main'
             }
         }
 
