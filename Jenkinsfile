@@ -45,14 +45,15 @@ pipeline {
                 '''
             }
         }
-         stage('Build .NET App') {
+       stage('Build .NET App') {
             steps {
                 dir('ProductService') {
-                    bat 'dotnet publish -c Release -o publish'
-}
-
+                    bat 'dotnet restore ProductService.csproj'
+                    bat 'dotnet publish ProductService.csproj -c Release -o ../../publish'
+                }
             }
         }
+
 
         stage('Deploy to Azure') {
             steps {
