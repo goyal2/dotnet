@@ -45,7 +45,7 @@ pipeline {
                 '''
             }
         }
-       stage('Build .NET App') {
+        stage('Build .NET App') {
             steps {
                 dir('ProductService') {
                     bat 'dotnet restore ProductService.csproj'
@@ -56,13 +56,13 @@ pipeline {
 
 
 
-    stage('Deploy to Azure') {
-        steps {
-            bat '''
-                az login --service-principal -u %ARM_CLIENT_ID% -p %ARM_CLIENT_SECRET% --tenant %ARM_TENANT_ID%
-                az webapp deploy --resource-group jenkins-somya-rg --name jenkins-somya-app123 --src-path publish.zip --type zip
-            '''
+        stage('Deploy to Azure') {
+            steps {
+                bat '''
+                    az login --service-principal -u %ARM_CLIENT_ID% -p %ARM_CLIENT_SECRET% --tenant %ARM_TENANT_ID%
+                    az webapp deploy --resource-group jenkins-somya-rg --name jenkins-somya-app123 --src-path publish.zip --type zip
+                '''
+            }
         }
     }
-
 }
